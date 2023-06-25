@@ -5,7 +5,7 @@ from sanic import exceptions
 from mayim.exception import RecordNotFound
 from mayim.extension import SanicMayimExtension
 from models.institute import Institute
-from executors import instituteExecutor
+from executors import InstituteExecutor
 from typing import List
 import os
 
@@ -15,7 +15,7 @@ app.ctx.db = f"postgres://{os.environ['DB_USER']}:{os.environ['DB_PASSWORD']}@{o
 
 Extend.register(
     SanicMayimExtension(
-        executors=[instituteExecutor],
+        executors=[InstituteExecutor],
         dsn=app.ctx.db
     )
 )
@@ -26,10 +26,19 @@ async def healthcheck(request):
 
 @app.get("/institutes")
 @openapi.response(List[Institute])
-async def get_institutes(request: Request, executor: instituteExecutor):
+async def get_institutes(request: Request, executor: InstituteExecutor):
     try:
         institutes = await executor.get_institutes()
         return json({"institutes": [institute.__dict__ for institute in institutes]} , ensure_ascii=False, default=str)
+    except Exception as e:
+        return exceptions.ServerError(f"{e}")
+
+@app.get("/course/subjects/<course_id>")
+@openapi.response(List[Institute])
+async def get_subjects_by_course_id(request: Request, course_id: str,  executor: InstituteExecutor):
+    try:
+        subjects = await executor.get_subjects_by_course_id(course_id)
+        return json({"subsjects": [subject.__dict__ for subject in subjects]} , ensure_ascii=False, default=str)
     except Exception as e:
         return exceptions.ServerError(f"{e}")
     
