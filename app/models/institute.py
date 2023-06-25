@@ -2,5 +2,5 @@ from dataclasses import dataclass
 
 @dataclass
 class Institute:
-    id: int
+    id: str
     name: str
