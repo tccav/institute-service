@@ -38,7 +38,7 @@ async def get_institutes(request: Request, executor: InstituteExecutor):
 async def get_subjects_by_institute_id(request: Request, institute_id: str,  executor: InstituteExecutor):
     try:
         subjects = await executor.get_subjects_by_institute_id(institute_id)
-        return json({"subsjects": [subject.__dict__ for subject in subjects]} , ensure_ascii=False, default=str)
+        return json({"subjects": [subject.__dict__ for subject in subjects]} , ensure_ascii=False, default=str)
     except Exception as e:
         return exceptions.ServerError(f"{e}")
 
@@ -47,7 +47,7 @@ async def get_subjects_by_institute_id(request: Request, institute_id: str,  exe
 async def get_universal_subjects_by_institute_id(request: Request, institute_id: str,  executor: InstituteExecutor):
     try:
         subjects = await executor.get__universal_subjects_by_institute_id(institute_id)
-        return json({"subsjects": [subject.__dict__ for subject in subjects]} , ensure_ascii=False, default=str)
+        return json({"subjects": [subject.__dict__ for subject in subjects]} , ensure_ascii=False, default=str)
     except Exception as e:
         return exceptions.ServerError(f"{e}")
 
@@ -56,7 +56,7 @@ async def get_universal_subjects_by_institute_id(request: Request, institute_id:
 async def get_subjects_by_course_id(request: Request, course_id: str,  executor: InstituteExecutor):
     try:
         subjects = await executor.get_subjects_by_course_id(course_id)
-        return json({"subsjects": [subject.__dict__ for subject in subjects]} , ensure_ascii=False, default=str)
+        return json({"subjects": [subject.__dict__ for subject in subjects]} , ensure_ascii=False, default=str)
     except Exception as e:
         return exceptions.ServerError(f"{e}")
 
