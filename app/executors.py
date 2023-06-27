@@ -11,7 +11,7 @@ class InstituteExecutor(PostgresExecutor):
     
     @query("""
     WITH required_subjects AS (
-    SELECT subject_id, ARRAY_AGG(depends_on_subject_id) as required_subjects
+    SELECT subject_id, ARRAY_AGG((depends_on_subject_id, name)) as required_subjects
     FROM requirements_subjects as rs
     LEFT JOIN subjects as s
     ON s.id = rs.subject_id
@@ -27,4 +27,69 @@ class InstituteExecutor(PostgresExecutor):
     WHERE cs.course_id = $course_id
     """)
     async def get_subjects_by_course_id(self, course_id) -> List[Subject]:
+        ...
+    
+    @query("""
+    WITH required_subjects AS (
+    SELECT subject_id, ARRAY_AGG((depends_on_subject_id, name)) as required_subjects
+    FROM requirements_subjects as rs
+    LEFT JOIN subjects as s
+    ON s.id = rs.subject_id
+    GROUP BY subject_id
+    ),
+    institute_departments AS (
+    SELECT id 
+    FROM departments
+    WHERE faculty_id = $institute_id
+    )
+    SELECT id, name, credits, workload_hours_total, workload_hours_total, is_universal, permits_agenda_conflict,
+        permits_preparation_situation, credits_requirements, approval_type, required_subjects
+    FROM subjects as s
+    LEFT JOIN required_subjects as rs
+    ON s.id = rs.subject_id
+    WHERE s.department_id IN (SELECT * FROM institute_departments)
+    """)
+    async def get_subjects_by_institute_id(self, institute_id) -> List[Subject]:
+        ...
+    
+    @query("""
+    WITH required_subjects AS (
+    SELECT subject_id, ARRAY_AGG((depends_on_subject_id, name)) as required_subjects
+    FROM requirements_subjects as rs
+    LEFT JOIN subjects as s
+    ON s.id = rs.subject_id
+    GROUP BY subject_id
+    ),
+    institute_departments AS (
+    SELECT id 
+    FROM departments
+    WHERE faculty_id = $institute_id
+    )
+    SELECT id, name, credits, workload_hours_total, workload_hours_total, is_universal, permits_agenda_conflict,
+        permits_preparation_situation, credits_requirements, approval_type, required_subjects
+    FROM subjects as s
+    LEFT JOIN required_subjects as rs
+    ON s.id = rs.subject_id
+    WHERE s.is_universal = true AND s.department_id IN (SELECT * FROM institute_departments)
+    """)
+    async def get__universal_subjects_by_institute_id(self, institute_id) -> List[Subject]:
+        ...
+    
+    @query("""
+    WITH required_subjects AS (
+    SELECT subject_id, ARRAY_AGG((depends_on_subject_id, name)) as required_subjects
+    FROM requirements_subjects as rs
+    LEFT JOIN subjects as s
+    ON s.id = rs.subject_id
+    GROUP BY subject_id
+    )
+
+    SELECT id, name, credits, workload_hours_total, workload_hours_total, is_universal, permits_agenda_conflict,
+        permits_preparation_situation, credits_requirements, approval_type, required_subjects
+    FROM subjects as s
+    LEFT JOIN required_subjects as rs
+    ON s.id = rs.subject_id
+    WHERE s.id = $subject_id
+    """)
+    async def get_subject_by_id(self, subject_id) -> Subject:
         ...

@@ -2,9 +2,9 @@ from sanic import Sanic, Request
 from sanic.response import json, text
 from sanic_ext import Extend, openapi
 from sanic import exceptions
-from mayim.exception import RecordNotFound
 from mayim.extension import SanicMayimExtension
 from models.institute import Institute
+from models.subject import Subject
 from executors import InstituteExecutor
 from typing import List
 import os
@@ -33,12 +33,38 @@ async def get_institutes(request: Request, executor: InstituteExecutor):
     except Exception as e:
         return exceptions.ServerError(f"{e}")
 
+@app.get("/institutes/subjects/<institute_id>")
+@openapi.response(List[Subject])
+async def get_subjects_by_institute_id(request: Request, institute_id: str,  executor: InstituteExecutor):
+    try:
+        subjects = await executor.get_subjects_by_institute_id(institute_id)
+        return json({"subsjects": [subject.__dict__ for subject in subjects]} , ensure_ascii=False, default=str)
+    except Exception as e:
+        return exceptions.ServerError(f"{e}")
+
+@app.get("/institutes/universal-subjects/<institute_id>")
+@openapi.response(List[Subject])
+async def get_universal_subjects_by_institute_id(request: Request, institute_id: str,  executor: InstituteExecutor):
+    try:
+        subjects = await executor.get__universal_subjects_by_institute_id(institute_id)
+        return json({"subsjects": [subject.__dict__ for subject in subjects]} , ensure_ascii=False, default=str)
+    except Exception as e:
+        return exceptions.ServerError(f"{e}")
+
 @app.get("/course/subjects/<course_id>")
-@openapi.response(List[Institute])
+@openapi.response(List[Subject])
 async def get_subjects_by_course_id(request: Request, course_id: str,  executor: InstituteExecutor):
     try:
         subjects = await executor.get_subjects_by_course_id(course_id)
         return json({"subsjects": [subject.__dict__ for subject in subjects]} , ensure_ascii=False, default=str)
+    except Exception as e:
+        return exceptions.ServerError(f"{e}")
+
+@app.get("subject/<subject_id>")
+async def get_subject_by_id(request: Request, subject_id: str,  executor: InstituteExecutor):
+    try:
+        subject = await executor.get_subject_by_id(subject_id)
+        return json( subject.__dict__ , ensure_ascii=False, default=str)
     except Exception as e:
         return exceptions.ServerError(f"{e}")
     
