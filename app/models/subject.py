@@ -12,7 +12,7 @@ class Subject:
     name: str
     credits: int
     workload_hours_total: int
-    workload_hours_total: int
+    workload_hours_per_week: int
     is_universal: bool
     permits_agenda_conflict: bool
     permits_preparation_situation: bool
