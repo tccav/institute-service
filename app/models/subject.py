@@ -24,5 +24,11 @@ class Subject:
         if self.required_subjects and type(self.required_subjects[0]) == tuple:
             self.required_subjects = [RequiredSubjects(*subject).__dict__ for subject in self.required_subjects]
 
+@dataclass
+class CourseSubject(Subject):
+    type: str
+    period: int
+
+
 
         

@@ -44,7 +44,10 @@ $$
 							  permits_preparation_situation,
 							  credits_requirements,
 							  approval_type)
-		VALUES (10832, 'Banco de Dados I', comp_dep_id, 4, 60, 4, FALSE, FALSE, FALSE, 0, 'GRADE'),
+		VALUES (10817, 'Fundamentos da Computação', comp_dep_id, 5, 90, 6, FALSE, FALSE, FALSE, 0, 'GRADE'),
+			   (10820, 'Algoritmos e Estruturas de Dados I', comp_dep_id, 6, 90, 6, FALSE, FALSE, FALSE, 0, 'GRADE'),
+			   (10821, 'Linguagem de Programação I', comp_dep_id, 4, 60, 4, FALSE, FALSE, FALSE, 0, 'GRADE'),
+			   (10832, 'Banco de Dados I', comp_dep_id, 4, 60, 4, FALSE, FALSE, FALSE, 0, 'GRADE'),
 			   (10838, 'Banco de Dados II', comp_dep_id, 4, 60, 4, FALSE, FALSE, FALSE, 0, 'GRADE'),
 			   (10839, 'Interfaces Humano-Computador', comp_dep_id, 4, 60, 4, FALSE, FALSE, FALSE, 0, 'GRADE'),
 			   (10835, 'Sistemas Operacionais I', comp_dep_id, 4, 60, 4, FALSE, FALSE, FALSE, 0, 'GRADE'),
@@ -55,21 +58,26 @@ $$
 
 		-- populate requirements_subjects
 		INSERT INTO requirements_subjects (subject_id, depends_on_subject_id)
-		VALUES (10838, 10832),
+		VALUES (10820, 10817),
+			   (10821, 10817),
+			   (10838, 10832),
 			   (10840, 10835),
 			   (10849, 10835),
 			   (10841, 10826);
 
 		-- populate courses_subjects
-		INSERT INTO courses_subjects (course_id, subject_id)
-		VALUES (comp_course_id, 10832),
-			   (comp_course_id, 10838),
-			   (comp_course_id, 10839),
-			   (comp_course_id, 10835),
-			   (comp_course_id, 10840),
-			   (comp_course_id, 10826),
-			   (comp_course_id, 10841),
-			   (comp_course_id, 10849);
+		INSERT INTO courses_subjects (course_id, subject_id, type, period)
+		VALUES (comp_course_id, 10817, 'Obrigatória', 1),
+			   (comp_course_id, 10820, 'Obrigatória', 2),
+			   (comp_course_id, 10821, 'Obrigatória', 2),
+			   (comp_course_id, 10832, 'Obrigatória', 5),
+			   (comp_course_id, 10838, 'Obrigatória', 6),
+			   (comp_course_id, 10839, 'Obrigatória', 6),
+			   (comp_course_id, 10835, 'Obrigatória', 5),
+			   (comp_course_id, 10840, 'Obrigatória', 6),
+			   (comp_course_id, 10826, 'Obrigatória', 3),
+			   (comp_course_id, 10841, 'Obrigatória', 6),
+			   (comp_course_id, 10849, 'Obrigatória', 8);
 
 		-- populate professors
 		INSERT INTO professors (id, name, cpf, email, department_id)

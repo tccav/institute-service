@@ -4,7 +4,7 @@ build:
 
 .PHONY: migrate-up
 migrate-up:
-	dbmate -u "postgres://${DB_USER}:${DB_PASSWORD}@0.0.0.0:${DB_PORT}/${DB_NAME}?${DB_OPTIONS}" up
+	dbmate -u "postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?${DB_OPTIONS}" up
 
 .PHONY: migrate-down
 migrate-down:
