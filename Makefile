@@ -1,6 +1,6 @@
 .PHONY: build-app-image
 build:
-	docker build -t institute_service_image .
+	docker build -t institute-service:latest .
 
 .PHONY: migrate-up
 migrate-up:

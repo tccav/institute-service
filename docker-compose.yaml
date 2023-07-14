@@ -3,14 +3,14 @@ version: "1"
 services:
 
   postgres:
-    container_name: institute_service_postgres_container
+    container_name: institute_service_pg
     image: postgres:15
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
       PGDATA: /data/postgres
     volumes:
-      - postgres:/data/postgres
+      - pg_institutes:/data/postgres
     ports:
       - "5432:5432"
     networks:
@@ -19,7 +19,7 @@ services:
 
   app:
     container_name: institute_service_container
-    image: institute_service_image
+    image: pedroyremolo/institute-service
     environment:
       - DB_HOST=postgres
       - DB_PORT=5432
@@ -39,5 +39,5 @@ networks:
     driver: bridge
 
 volumes:
-  postgres:
+  pg_institutes:
 
