@@ -88,7 +88,6 @@ $$
 			   (20230521127, 'Alexandre Sztajnberg', '52806950090', 'alexszt@ime.uerj.br', comp_dep_id),
 			   (20230521128, 'Ana Carolina Brito de Almeida', '58152032034', 'ana.almeida@ime.uerj.br', comp_dep_id),
 			   (20230521129, 'Vera Maria Benjamim Werneck', '99717946086', 'vera@ime.uerj.br', comp_dep_id);
-
 		COMMIT;
 	END;
 $$
