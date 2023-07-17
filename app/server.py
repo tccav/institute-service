@@ -10,7 +10,7 @@ from sanic_ext import Extend, openapi
 from sanic import exceptions
 from mayim.extension import SanicMayimExtension
 
-from app import telemetry
+import telemetry
 from models.course import Course
 from models.institute import Institute
 from models.subject import Subject
@@ -23,7 +23,7 @@ resource = Resource(attributes={
     SERVICE_NAME: "institute-service"
 })
 tracer_provider = TracerProvider(resource=resource)
-tracer_processor = BatchSpanProcessor(OTLPSpanExporter(endpoint="localhost:4317", insecure=True))
+tracer_processor = BatchSpanProcessor(OTLPSpanExporter(endpoint=os.environ['OTEL_BASE_URL'], insecure=True))
 tracer_provider.add_span_processor(tracer_processor)
 trace.set_tracer_provider(tracer_provider)
 
@@ -108,4 +108,4 @@ async def get_subject_by_id(_: Request, subject_id: str, executor: InstituteExec
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8000, access_log=True)
+    app.run(host="0.0.0.0", port=int(os.environ['APP_PORT']), access_log=True)
