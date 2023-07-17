@@ -74,7 +74,7 @@ async def get_subjects_by_institute_id(request: Request, institute_id: str, exec
         raise exceptions.ServerError(f"{e}")
 
 
-@app.get("/course/<course_id>/subjects/")
+@app.get("/courses/<course_id>/subjects/")
 @telemetry.start_as_current_http_span()
 @openapi.response(200, List[Subject])
 async def get_subjects_by_course_id(_: Request, course_id: str, executor: InstituteExecutor):
@@ -96,7 +96,7 @@ async def get_course_by_id(_: Request, course_id: str, executor: InstituteExecut
         raise exceptions.ServerError(f"{e}")
 
 
-@app.get("subject/<subject_id>")
+@app.get("/subjects/<subject_id>")
 @telemetry.start_as_current_http_span()
 @openapi.response(200, Subject)
 async def get_subject_by_id(_: Request, subject_id: str, executor: InstituteExecutor):
